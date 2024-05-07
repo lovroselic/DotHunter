@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- bootstrap, css -->
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="/CSS/LaughingStyle.css" rel="stylesheet" type="text/css">
+    <!-- END -->
+    <title>DOT-HUNTER</title>
+
+</head>
+
+<body>
+    <!-- copy start-->
+    <div id="preload" class="hidden"></div>
+
+    <div class="container my-5 p-5 cool_page">
+
+        <div id="setup">
+            <div id="load"></div>
+
+            <div class="row win">
+                <div class="col-12 col-lg-8 my-2 ">
+                    <h1 id="title" style='font-family: "Arcade"'></h1>
+                    <p>Rat has this amazing feeling that she needs to eat all the dots she sees. It's pity that this
+                        nasty
+                        ghosts
+                        are being such an annoyance.
+                        Luckily there is some cheese in the maze. And eating cheese makes feel the Rat feel as a dragon.
+                        Fierce an
+                        powerful. And the ghosts seems to be afraid. Sometimes. Take care. Bon appetit.</p>
+                </div>
+
+                <div class="col-12 col-lg-4 my-2 white_text d-flex justify-content-center" id="SC">
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div id="debug" class="section">
+                    <fieldset>
+                        <legend>
+                            Version:
+                        </legend>
+                        ENGINE: <span id="engine_version"></span><br>
+                        GRID: <span id="grid_version"></span><br>
+                        Prototype LIB: <span id="lib_version"></span><br>
+                        MAZE: <span id="maze_version"></span><br>
+                    </fieldset>
+
+                </div>
+            </div>
+
+            <p class="cb" id="buttons">
+                <input type='button' id='toggleHelp' value='Show/Hide Instructions'>
+                <input type='button' id='toggleAbout' value='About'>
+                <input type='button' id='toggleVersion' value='Version'>
+            </p>
+
+            <div id="help" class="section">
+                <fieldset>
+                    <legend>
+                        Instructions:
+                    </legend>
+                    <p>Collect all the dots in the maze. The cheese would make the rat feel like a dragon ... Use cursor
+                        keys to navigate the maze.</p>
+                </fieldset>
+            </div>
+
+            <div id="about" class="section">
+                <fieldset>
+                    <legend>
+                        About:
+                    </legend>
+                    <image src="https://upload.wikimedia.org/wikipedia/en/5/59/Pac-man.png" alt="Pac-Man"
+                        class="border border-dark p-1 m-2 float-start" title="Pac-Man">
+                        <p> Dot Hunter is a clone of <a href="https://en.wikipedia.org/wiki/Pac-Man"
+                                target="_blank">Pac-Man</a>, released in 1980. </p>
+                        <p>The version tries to capture most of the Pac-Man rules (and also some bugs ...), but to make
+                            it more challenging to code,
+                            it features procedural random mazes, constructed in a way that follows the rules of classic
+                            Pac-Man maze.</p>
+                        <p>Features <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm"
+                                target="_blank">Dijkstra's</a> and <a
+                                href="https://en.wikipedia.org/wiki/A*_search_algorithm" target="_blank">A*</a>
+                            algorithms for path finding and my own algorithm for procedural dungeon generation.
+                        </p>
+
+                </fieldset>
+            </div>
+            <p class="version" id="version"></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="game" class="winTrans"></div>
+        <div id="bottom" style="margin-top: 720px"></div>
+        <div id="temp" class="hidden"></div>
+        <div id="temp2" class="hidden"></div>
+    </div>
+
+    <!-- External JS -->
+    <script src="/External/bootstrap.bundle.min.js"></script>
+    <script src="/External/jquery-3.6.0.min.js"></script>
+
+    <!-- JS -->
+    <script src="/Code/JS/Library/Engine/prototypeLIB_2_11.js" type="text/javascript"></script>
+    <script src="/Code/JS/Library/Misc/score_1_05.js" type="text/javascript"></script>
+    <script src="/Code/JS/Library/Engine/engine_2_45.js" type="text/javascript"></script>
+    <script src="/Code/JS/Library/Engine/speech_1_00.js" type="text/javascript"></script>
+    <script src="/Code/JS/Library/Engine/maze_2_80.js" type="text/javascript"></script>
+    <script src="/Assets/Definitions/DotHunter/assets_DotHunter.js" type="text/javascript"></script>
+    <script src="/Games/DotHUnter/DotHunter.js" type="text/javascript"></script>
+</body>
+
+</html>

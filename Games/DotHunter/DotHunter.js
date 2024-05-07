@@ -23,19 +23,19 @@ const INI = {
   FLOATY_DISTANCE: 4
 };
 const PRG = {
-  VERSION: "1.01.01",
+  VERSION: "1.01.02",
   CSS: "color: #0F0",
   NAME: "DOT-HUNTER",
   YEAR: 2020,
   INIT() {
     console.log("%c****************************", PRG.CSS);
     console.log(
-      `%c${PRG.NAME} ${PRG.VERSION} by Lovro Selic, (c) C00lSch00l ${PRG.YEAR} on ˘${navigator.userAgent}`,
+      `%c${PRG.NAME} ${PRG.VERSION} by Lovro Selic, (c) LaughingSkull ${PRG.YEAR} on ˘${navigator.userAgent}`,
       PRG.CSS
     );
     $("#title").html(PRG.NAME);
     $("#version").html(
-      `${PRG.NAME} V${PRG.VERSION} <span style='font-size:14px'>&copy</span> C00lSch00l ${PRG.YEAR}`
+      `${PRG.NAME} V${PRG.VERSION} <span style='font-size:14px'>&copy</span> LaughingSkull ${PRG.YEAR}`
     );
     $("input#toggleAbout").val("About " + PRG.NAME);
     $("#about fieldset legend").append(" " + PRG.NAME + " ");
@@ -46,11 +46,19 @@ const PRG = {
     ENGINE.init();
   },
   setup() {
+    $("#engine_version").html(ENGINE.VERSION);
+    $("#grid_version").html(GRID.VERSION);
+    $("#lib_version").html(LIB.VERSION);
+    $("#maze_version").html(DUNGEON.VERSION);
+
     $("#toggleHelp").click(function () {
       $("#help").toggle(400);
     });
     $("#toggleAbout").click(function () {
       $("#about").toggle(400);
+    });
+    $("#toggleVersion").click(function () {
+      $("#debug").toggle(400);
     });
   },
   start() {
@@ -864,7 +872,7 @@ const GAME = {
   },
   generateTitleText() {
     let text = `${PRG.NAME} ${PRG.VERSION
-      }, a game by Lovro Selič, ${"\u00A9"} C00lSch00l ${PRG.YEAR
+      }, a game by Lovro Selič, ${"\u00A9"} LaughingSkull ${PRG.YEAR
       } . Music: 'Arise' written and performed by LaughingSkull, ${"\u00A9"} 2007 Lovro Selič. `;
     text +=
       "     ENGINE, SPEECH, MAZE and GAME code by Lovro Selič using JavaScript ES7. ";
