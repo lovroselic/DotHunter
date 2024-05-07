@@ -9,8 +9,8 @@
 
  */
 ////////////////////////////////////////////////////
-var DEBUG = {};
-var INI = {
+const DEBUG = {};
+const INI = {
   SIZEX: 21,
   SIZEY: 16,
   HERO_SPEED: 6,
@@ -22,12 +22,12 @@ var INI = {
   BONUS_TIME: 9,
   FLOATY_DISTANCE: 4
 };
-var PRG = {
-  VERSION: "1.01",
+const PRG = {
+  VERSION: "1.01.01",
   CSS: "color: #0F0",
   NAME: "DOT-HUNTER",
   YEAR: 2020,
-  INIT: function () {
+  INIT() {
     console.log("%c****************************", PRG.CSS);
     console.log(
       `%c${PRG.NAME} ${PRG.VERSION} by Lovro Selic, (c) C00lSch00l ${PRG.YEAR} on ˘${navigator.userAgent}`,
@@ -45,7 +45,7 @@ var PRG = {
     ENGINE.readyCall = GAME.setup;
     ENGINE.init();
   },
-  setup: function () {
+  setup() {
     $("#toggleHelp").click(function () {
       $("#help").toggle(400);
     });
@@ -53,7 +53,7 @@ var PRG = {
       $("#about").toggle(400);
     });
   },
-  start: function () {
+  start() {
     console.log(`%c${PRG.NAME} started.`, PRG.CSS);
     $(ENGINE.topCanvas).off("mousemove", ENGINE.mouseOver);
     $(ENGINE.topCanvas).off("click", ENGINE.mouseClick);
@@ -80,9 +80,9 @@ var PRG = {
     $("#bottom").css(
       "margin-top",
       ENGINE.gameHEIGHT +
-        ENGINE.titleHEIGHT +
-        ENGINE.bottomHEIGHT +
-        ENGINE.scoreHEIGHT
+      ENGINE.titleHEIGHT +
+      ENGINE.bottomHEIGHT +
+      ENGINE.scoreHEIGHT
     );
 
     $(ENGINE.gameWindowId).width(ENGINE.gameWIDTH + 4);
@@ -130,8 +130,8 @@ var PRG = {
   }
 };
 var MAP = {};
-var HERO = {
-  startInit: function () {
+const HERO = {
+  startInit() {
     HERO.spriteClass = "DotHunter";
     HERO.asset = ASSET[HERO.spriteClass];
     HERO.actor = new ACTOR(
@@ -145,7 +145,7 @@ var HERO = {
     HERO.speed = INI.HERO_SPEED;
     HERO.changeSpeed = INI.HERO_SPEED;
   },
-  init: function () {
+  init() {
     HERO.dead = false;
     GRID.gridToSprite(MAP[GAME.level].startPoint, HERO.actor);
     HERO.MoveState = new MoveState(MAP[GAME.level].startPoint);
@@ -156,7 +156,7 @@ var HERO = {
     HERO.change = null;
     HERO.warning = null;
   },
-  draw: function () {
+  draw() {
     if (HERO.dead) return;
     ENGINE.spriteDraw(
       "actors",
@@ -166,7 +166,7 @@ var HERO = {
     );
     ENGINE.layersToClear.add("actors");
   },
-  move: function () {
+  move() {
     if (HERO.dead) return;
     if (HERO.MoveState.moving) {
       GRID.translateMove(HERO, false, HeroOnFinish);
@@ -177,7 +177,7 @@ var HERO = {
       HERO.speed = HERO.changeSpeed;
     }
   },
-  changeDirection: function (dir) {
+  changeDirection(dir) {
     if (HERO.MoveState.moving) return;
     let x = HERO.MoveState.endGrid.x + dir.x;
     let y = HERO.MoveState.endGrid.y + dir.y;
@@ -192,12 +192,12 @@ var HERO = {
       }
     }
   },
-  manage: function () {
+  manage() {
     HERO.move();
     HERO.touchConfigItem();
     HERO.collideMonster();
   },
-  touchConfigItem: function () {
+  touchConfigItem() {
     let index = GRID.gridToIndex(HERO.MoveState.homeGrid);
     let stuff = MAP[GAME.level].GridMap.map[index];
 
@@ -257,7 +257,7 @@ var HERO = {
       AUDIO.Life.play();
     }
   },
-  toDragon: function () {
+  toDragon() {
     GAME.monsterEatingBonus = -1;
     let time = LevelTable.dragonTime(GAME.level);
     if (HERO.change) {
@@ -271,10 +271,10 @@ var HERO = {
       ENEMY.scare();
     }
   },
-  toFlash: function () {
+  toFlash() {
     HERO.warning = new FrameCounter("Flash", 30, GAME.flashing, HERO.toRat);
   },
-  toRat: function () {
+  toRat() {
     GAME.monsterEatingBonus = -1;
     HERO.dragon = false;
     HERO.changeSpeed = INI.HERO_SPEED;
@@ -282,7 +282,7 @@ var HERO = {
     HERO.change = null;
     ENEMY.calm();
   },
-  collideMonster: function () {
+  collideMonster() {
     if (HERO.dead) return;
     for (let PL = ENEMY.POOL.length, q = PL - 1; q >= 0; q--) {
       let enemy = ENEMY.POOL[q];
@@ -327,7 +327,7 @@ var HERO = {
       }
     }
   },
-  die: function () {
+  die() {
     if (HERO.dead) return;
     //console.log("HERO died");
     ENGINE.TIMERS.stop();
@@ -349,15 +349,15 @@ var HERO = {
       ENEMY.reset();
     }
   },
-  paintDeath: function () {
+  paintDeath() {
     ENGINE.clearLayer("actors");
     ENEMY.draw();
     ENGINE.spriteDraw("actors", HERO.actor.x, HERO.actor.y, SPRITE.Skull);
   }
 };
-var LevelTable = {
+const LevelTable = {
   monsterEatingBonus: [200, 400, 800, 1600],
-  color: function (level) {
+  color(level) {
     const Colors = [
       "#0000E0",
       "#0000FF",
@@ -383,7 +383,7 @@ var LevelTable = {
       return Colors.chooseRandom();
     }
   },
-  dragonTime: function (level) {
+  dragonTime(level) {
     let time;
     switch (true) {
       case level < 4:
@@ -407,7 +407,7 @@ var LevelTable = {
     }
     return time;
   },
-  bonus: function (level) {
+  bonus(level) {
     const score = [
       100,
       300,
@@ -422,20 +422,8 @@ var LevelTable = {
       10000,
       20000
     ];
-    const fruit = [
-      "Apple",
-      "Pear",
-      "Strawberry",
-      "Orange",
-      "Banana",
-      "Watermelon",
-      "Pineapple",
-      "Acorn",
-      "Cake",
-      "Key",
-      "Ring",
-      "Crown"
-    ];
+    const fruit = ["Apple", "Pear", "Strawberry", "Orange", "Banana", "Watermelon", "Pineapple", "Acorn", "Cake", "Key", "Ring", "Crown"];
+
     let LN = fruit.length;
     if (level - 1 >= LN) {
       return { score: score.last(), fruit: fruit.last() };
@@ -443,7 +431,7 @@ var LevelTable = {
       return { score: score[level - 1], fruit: fruit[level - 1] };
     }
   },
-  speed: function (level) {
+  speed(level) {
     let speed;
     switch (true) {
       case level < 2:
@@ -464,7 +452,7 @@ var LevelTable = {
     }
     return speed;
   },
-  scaredSpeed: function (level) {
+  scaredSpeed(level) {
     let speed;
     switch (true) {
       case level < 3:
@@ -485,7 +473,7 @@ var LevelTable = {
     }
     return speed;
   },
-  wander: function (level) {
+  wander(level) {
     let time;
     switch (true) {
       case level < 4:
@@ -503,7 +491,7 @@ var LevelTable = {
     }
     return time;
   },
-  chase: function (level) {
+  chase(level) {
     let time;
     switch (true) {
       case level < 7:
@@ -519,19 +507,19 @@ var LevelTable = {
     return time;
   }
 };
-var GAME = {
+const GAME = {
   CSS: "color: orange",
-  titleScreen: function () {
+  titleScreen() {
     TITLE.startTitle();
   },
   CI: {
     text: ["READY", "SET?", "GO!"],
-    reset: function () {
+    reset() {
       GAME.CI.start = null;
       GAME.CI.now = null;
     }
   },
-  countIn: function () {
+  countIn() {
     if (!GAME.CI.start) GAME.CI.start = performance.now();
     var delta = Math.floor((performance.now() - GAME.CI.start) / 1000);
     if (delta >= 3) {
@@ -547,11 +535,11 @@ var GAME = {
       GAME.CI.now = delta;
     }
   },
-  abort: function () {
+  abort() {
     ENGINE.GAME.stopAnimation = true;
     console.error("..... aborting GAME, DEBUG info:");
   },
-  start: function () {
+  start() {
     console.log(`%c****************** GAME.start ******************`, GAME.CSS);
     if (AUDIO.Title) {
       AUDIO.Title.pause();
@@ -579,17 +567,17 @@ var GAME = {
     HERO.startInit();
     ENGINE.GAME.ANIMATION.waitThen(GAME.levelStart, 2);
   },
-  setBonus: function () {
+  setBonus() {
     if (GAME.bonusTimer !== null) return;
     GAME.bonusTimer = new CountDown("bonus", INI.BONUS_TIME, GAME.clearBonus);
     MAP[GAME.level].GridMap.set(MAP[GAME.level].bonus, 16);
   },
-  clearBonus: function () {
+  clearBonus() {
     GAME.PAINT.refreshConfig = true;
     GAME.bonusTimer = null;
     MAP[GAME.level].GridMap.clear(MAP[GAME.level].bonus, 16);
   },
-  prepareForRestart: function () {
+  prepareForRestart() {
     ENGINE.GAME.ANIMATION.stop();
     ENGINE.clearLayer("text");
     ENGINE.clearLayer("actors");
@@ -600,7 +588,7 @@ var GAME = {
     ENGINE.clearLayer("cover");
     ENGINE.clearLayer("animation");
   },
-  levelExecute: function () {
+  levelExecute() {
     console.log("level", GAME.level, "executes");
     HERO.init();
     GAME.firstFrameDraw(GAME.level);
@@ -608,13 +596,13 @@ var GAME = {
     ENGINE.TEXT.RD = RD;
     ENGINE.GAME.ANIMATION.next(GAME.countIn);
   },
-  levelContinue: function () {
+  levelContinue() {
     console.log("LEVEL", GAME.level, "continues ...");
     ENGINE.clearLayer("actors");
     ENGINE.TIMERS.start();
     GAME.levelExecute();
   },
-  levelStart: function () {
+  levelStart() {
     console.log("starting level", GAME.level);
     ENGINE.clearLayer("text");
     ENGINE.clearLayer("actors");
@@ -625,7 +613,7 @@ var GAME = {
     ENEMY.init();
     GAME.levelExecute();
   },
-  levelTransition: function () {
+  levelTransition() {
     if (ENGINE.GAME.stopAnimation) return;
     let CTX = LAYER.cover;
     CTX.fillStyle = "#000";
@@ -646,11 +634,11 @@ var GAME = {
   },
   TRANS: {
     w: 1,
-    reset: function () {
+    reset() {
       GAME.TRANS.w = 1;
     }
   },
-  prepareNextLevel: function () {
+  prepareNextLevel() {
     GAME.TRANS.reset();
     ENGINE.clearLayer("actors");
     ENGINE.clearLayer("animation");
@@ -659,13 +647,13 @@ var GAME = {
     HERO.toRat();
     ENGINE.GAME.ANIMATION.next(GAME.levelTransition);
   },
-  nextLevel: function () {
+  nextLevel() {
     GAME.level++;
     GAME.levelCompleted = false;
     //console.log("creating next level: ", GAME.level);
     ENGINE.GAME.ANIMATION.waitThen(GAME.levelStart, 2);
   },
-  levelEnd: function () {
+  levelEnd() {
     //console.log("level", GAME.level, "ended.");
     ENGINE.TEXT.centeredText(
       `LEVEL ${GAME.level} CLEARED`,
@@ -676,7 +664,7 @@ var GAME = {
     AUDIO.ClearLevel.play();
     ENGINE.GAME.ANIMATION.stop();
   },
-  initLevel: function (level) {
+  initLevel(level) {
     let t1 = performance.now();
     MAP[level] = new PacDungeon(INI.SIZEX, INI.SIZEY);
     GAME.configureLevel(level);
@@ -694,7 +682,7 @@ var GAME = {
     GAME.monsterEatingBonus = -1;
     GAME.monsterStreak = 4;
   },
-  frameDraw: function () {
+  frameDraw() {
     ENGINE.clearLayerStack();
     HERO.draw();
     ENEMY.draw();
@@ -702,14 +690,14 @@ var GAME = {
     if (TITLE.repaintScore) TITLE.score();
     TEXTPOOL.draw("animation");
   },
-  firstFrameDraw: function (level) {
+  firstFrameDraw(level) {
     TITLE.main();
     ENGINE.PACGRID.draw(MAP[level].pac);
     GAME.PAINT.config();
     HERO.draw();
     ENEMY.draw();
   },
-  run: function () {
+  run() {
     if (ENGINE.GAME.stopAnimation) return;
     GAME.respond();
     HERO.manage();
@@ -718,7 +706,7 @@ var GAME = {
     ENGINE.FRAME_COUNTERS.update();
     GAME.frameDraw();
   },
-  respond: function () {
+  respond() {
     //GAME.respond() template
     if (HERO.dead) return;
     var map = ENGINE.GAME.keymap;
@@ -760,12 +748,12 @@ var GAME = {
 
     return;
   },
-  setup: function () {
+  setup() {
     console.log("%cGAME SETUP started", PRG.CSS);
     $("#buttons").prepend("<input type='button' id='startGame' value='START'>");
     $("#startGame").on("click", GAME.start);
   },
-  end: function () {
+  end() {
     console.log("GAME ENDED");
     ENGINE.showMouse();
     GAME.checkScore();
@@ -778,7 +766,7 @@ var GAME = {
     TITLE.pressEnter();
     ENGINE.GAME.ANIMATION.next(GAME.endAnimation);
   },
-  endAnimation: function () {
+  endAnimation() {
     if (ENGINE.GAME.keymap[ENGINE.KEY.map.enter]) {
       ENGINE.GAME.ANIMATION.waitThen(GAME.titleScreen);
     }
@@ -799,13 +787,13 @@ var GAME = {
       CTX.pixelAt(x, y, 1);
     }
   },
-  checkScore: function () {
+  checkScore() {
     console.log(PRG.NAME, "stopped?", !ENGINE.GAME.running);
     SCORE.checkScore(GAME.score);
     SCORE.hiScore();
     TITLE.hiScore();
   },
-  configureLevel: function (level) {
+  configureLevel(level) {
     console.log("Configuring level:", level);
     /*
     default map:
@@ -849,7 +837,7 @@ var GAME = {
   },
   PAINT: {
     refreshConfig: null,
-    config: function () {
+    config() {
       ENGINE.clearLayer("config");
       GAME.PAINT.refreshConfig = false;
       let map = MAP[GAME.level].GridMap.map;
@@ -874,18 +862,16 @@ var GAME = {
       }
     }
   },
-  generateTitleText: function () {
-    let text = `${PRG.NAME} ${
-      PRG.VERSION
-    }, a game by Lovro Selič, ${"\u00A9"} C00lSch00l ${
-      PRG.YEAR
-    } . Music: 'Arise' written and performed by LaughingSkull, ${"\u00A9"} 2007 Lovro Selič. `;
+  generateTitleText() {
+    let text = `${PRG.NAME} ${PRG.VERSION
+      }, a game by Lovro Selič, ${"\u00A9"} C00lSch00l ${PRG.YEAR
+      } . Music: 'Arise' written and performed by LaughingSkull, ${"\u00A9"} 2007 Lovro Selič. `;
     text +=
       "     ENGINE, SPEECH, MAZE and GAME code by Lovro Selič using JavaScript ES7. ";
     text = text.split("").join(String.fromCharCode(8202));
     return text;
   },
-  setTitle: function () {
+  setTitle() {
     const text = GAME.generateTitleText();
     const RD = new RenderData("Annie", 16, "lime", "bottomText");
     const SQ = new Square(
@@ -896,12 +882,12 @@ var GAME = {
     );
     GAME.movingText = new MovingText(text, 3, RD, SQ);
   },
-  runTitle: function () {
+  runTitle() {
     if (ENGINE.GAME.stopAnimation) return;
     GAME.movingText.process();
     GAME.titleFrameDraw();
   },
-  titleFrameDraw: function () {
+  titleFrameDraw() {
     GAME.movingText.draw();
     GAME.fancyText.draw();
     TITLE.lines();
@@ -922,13 +908,13 @@ var GAME = {
 };
 var TITLE = {
   repaintScore: null,
-  main: function () {
+  main() {
     TITLE.title();
     TITLE.bottom();
     TITLE.score();
     TITLE.hiScore();
   },
-  title: function () {
+  title() {
     var CTX = LAYER.title;
     TITLE.background();
     var fs = 42;
@@ -959,7 +945,7 @@ var TITLE = {
     CTX.shadowBlur = 3;
     CTX.fillText(PRG.NAME, x, y);
   },
-  background: function () {
+  background() {
     var CTX = LAYER.title;
     CTX.fillStyle = "#000";
     CTX.roundRect(
@@ -977,7 +963,7 @@ var TITLE = {
       true
     );
   },
-  bottom: function () {
+  bottom() {
     var CTX = LAYER.bottom;
     CTX.fillStyle = "#000";
     CTX.roundRect(
@@ -1005,7 +991,7 @@ var TITLE = {
     CTX.shadowColor = "#cec967";
     CTX.fillText("Version " + PRG.VERSION + " by Lovro Selič", x, y);
   },
-  bottomBlank: function () {
+  bottomBlank() {
     var CTX = LAYER.bottom;
     CTX.fillStyle = "#000";
     CTX.roundRect(
@@ -1023,13 +1009,13 @@ var TITLE = {
       true
     );
   },
-  scoreBlank: function () {
+  scoreBlank() {
     ENGINE.clearLayer("score_back");
     var CTX = LAYER.score_back;
     CTX.fillStyle = "#000";
     CTX.fillRect(0, 0, ENGINE.scoreWIDTH, ENGINE.scoreHEIGHT);
   },
-  score: function () {
+  score() {
     ENGINE.clearLayer("score");
     TITLE.repaintScore = false;
     TITLE.scoreBlank();
@@ -1055,7 +1041,7 @@ var TITLE = {
     text = `LIVES: ${GAME.lives.toString().padStart(2, "0")}`;
     CTX.fillText(text, x, y);
   },
-  hiScore: function () {
+  hiScore() {
     ENGINE.clearLayer("hiscore");
     let CTX = LAYER.hiscore;
     let fs = 20;
@@ -1085,7 +1071,7 @@ var TITLE = {
       HS;
     CTX.fillText(text, x, y);
   },
-  gameOver: function () {
+  gameOver() {
     ENGINE.clearLayer("text");
     var CTX = LAYER.text;
     CTX.textAlign = "center";
@@ -1115,7 +1101,7 @@ var TITLE = {
     CTX.shadowBlur = 3;
     CTX.fillText("GAME OVER", x, y);
   },
-  pressEnter: function () {
+  pressEnter() {
     var CTX = LAYER.text;
     CTX.textAlign = "center";
     CTX.font = 32 + "px Garamond";
@@ -1123,10 +1109,10 @@ var TITLE = {
     var y = ENGINE.gameHEIGHT / 2 + 80;
     CTX.fillText("Press ENTER to continue", x, y);
   },
-  music: function () {
+  music() {
     if (AUDIO.Title) AUDIO.Title.play();
   },
-  startTitle: function () {
+  startTitle() {
     if (AUDIO.Title) AUDIO.Title.play();
     ENGINE.clearLayer("text");
     ENGINE.clearLayer("actors");
@@ -1159,13 +1145,13 @@ var TITLE = {
     let cname = ENGINE.getCanvasName("ROOM");
     ENGINE.topCanvas = cname;
     TITLE.drawButtons();
-    
+
     //set ghosts
     x = 672;
     y = 300;
     let delta = 96;
     TITLE.ghosts = [];
-    for (const ghost in GHOSTS){
+    for (const ghost in GHOSTS) {
       TITLE.ghosts.push(new ACTOR(GHOSTS[ghost].spriteClass.brave, x, y, "front", ASSET[GHOSTS[ghost].spriteClass.brave]));
       ENGINE.TEXT.leftText(ghost, x + 64, y + 32);
       y += delta;
@@ -1184,29 +1170,29 @@ var TITLE = {
     ENGINE.GAME.start(); //INIT game loop
     ENGINE.GAME.ANIMATION.next(GAME.runTitle);
   },
-  animateTitleGhosts: function(){
+  animateTitleGhosts: function () {
     ENGINE.clearLayer("actors");
-    for (let ghost of TITLE.ghosts){
+    for (let ghost of TITLE.ghosts) {
       ghost.animateMove("front");
       ENGINE.draw("actors", ghost.x, ghost.y, ghost.sprite());
     }
   },
-  animateTitleRat: function(){
+  animateTitleRat: function () {
     let left = 208;
     let right = 208 + 615 - 48;
-    
+
     TITLE.rat.x += TITLE.rat.dir.x * TITLE.rat.speed;
-    if (TITLE.rat.x <= left){
+    if (TITLE.rat.x <= left) {
       TITLE.rat.dir = RIGHT;
-    } else if (TITLE.rat.x >= right){
+    } else if (TITLE.rat.x >= right) {
       TITLE.rat.dir = LEFT;
     }
-    
+
     TITLE.rat.orientation = TITLE.rat.getOrientation(TITLE.rat.dir);
     TITLE.rat.animateMove(TITLE.rat.orientation);
     ENGINE.draw("actors", TITLE.rat.x, TITLE.rat.y, TITLE.rat.sprite());
   },
-  drawButtons: function () {
+  drawButtons() {
     ENGINE.clearLayer("button");
     FORM.BUTTON.POOL.clear();
     let x = 32;
@@ -1236,7 +1222,7 @@ var TITLE = {
     $(ENGINE.topCanvas).mousemove(ENGINE.mouseOver);
     $(ENGINE.topCanvas).click(ENGINE.mouseClick);
   },
-  lines: function () {
+  lines() {
     let x = 208;
     let y = 250;
     TITLE.line(x, y);
@@ -1245,7 +1231,7 @@ var TITLE = {
     y = 720;
     TITLE.line(x, y);
   },
-  line: function (x, y) {
+  line(x, y) {
     let CTX = LAYER.animation;
     let size = 2;
     let width = 615;
@@ -1329,16 +1315,16 @@ class Ghost {
     this.timer = null;
   }
 }
-var ENEMY = {
+const ENEMY = {
   POOL: [],
-  init: function () {
+  init() {
     ENEMY.POOL.clear();
     ENEMY.POOL.push(new Ghost(GHOSTS.Ghosty));
     ENEMY.POOL.push(new Ghost(GHOSTS.Ugly));
     ENEMY.POOL.push(new Ghost(GHOSTS.Scary));
     ENEMY.POOL.push(new Ghost(GHOSTS.Floaty));
   },
-  reset: function () {
+  reset() {
     for (let q = 0; q < ENEMY.POOL.length; q++) {
       let ghost = ENEMY.POOL[q];
       ghost.MoveState = new MoveState(ghost.home);
@@ -1347,7 +1333,7 @@ var ENEMY = {
       ghost.dirStack.clear();
     }
   },
-  draw: function () {
+  draw() {
     ENGINE.layersToClear.add("actors");
     for (let q = 0; q < ENEMY.POOL.length; q++) {
       let ghost = ENEMY.POOL[q];
@@ -1359,7 +1345,7 @@ var ENEMY = {
       );
     }
   },
-  manage: function () {
+  manage() {
     GRID.calcDistancesBFS_A(HERO.MoveState.homeGrid, MAP[GAME.level]);
     const nodeMap = MAP[GAME.level].nodeMap;
 
@@ -1517,7 +1503,7 @@ var ENEMY = {
       } else return true;
     }
   },
-  calm: function () {
+  calm() {
     for (let PL = ENEMY.POOL.length, q = PL - 1; q >= 0; q--) {
       let enemy = ENEMY.POOL[q];
       if (enemy.state === "Flee" && enemy.state != "Dead") {
@@ -1527,7 +1513,7 @@ var ENEMY = {
       }
     }
   },
-  scare: function () {
+  scare() {
     for (let PL = ENEMY.POOL.length, q = PL - 1; q >= 0; q--) {
       let enemy = ENEMY.POOL[q];
       if (
@@ -1547,7 +1533,7 @@ var ENEMY = {
       }
     }
   },
-  setScared: function () {
+  setScared() {
     for (let PL = ENEMY.POOL.length, q = PL - 1; q >= 0; q--) {
       let enemy = ENEMY.POOL[q];
       if (enemy.state === "Flee") {
@@ -1555,7 +1541,7 @@ var ENEMY = {
       }
     }
   },
-  setBrave: function () {
+  setBrave() {
     for (let PL = ENEMY.POOL.length, q = PL - 1; q >= 0; q--) {
       let enemy = ENEMY.POOL[q];
       if (enemy.state === "Flee") {
@@ -1564,7 +1550,7 @@ var ENEMY = {
     }
   }
 };
-var GHOSTS = {
+const GHOSTS = {
   Ghosty: {
     name: "Ghosty",
     spriteClass: {
