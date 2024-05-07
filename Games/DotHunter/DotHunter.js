@@ -23,7 +23,7 @@ const INI = {
   FLOATY_DISTANCE: 4
 };
 const PRG = {
-  VERSION: "1.01.03",
+  VERSION: "1.01.04",
   CSS: "color: #0F0",
   NAME: "DOT-HUNTER",
   YEAR: 2020,
@@ -47,7 +47,6 @@ const PRG = {
   },
   setup() {
     $("#engine_version").html(ENGINE.VERSION);
-    $("#grid_version").html(GRID.VERSION);
     $("#lib_version").html(LIB.VERSION);
     $("#maze_version").html(DUNGEON.VERSION);
 
@@ -83,7 +82,7 @@ const PRG = {
 
     ENGINE.checkProximity = false;
     ENGINE.checkIntersection = false;
-    //ENGINE.setCollisionsafe(49);
+    ENGINE.setCollisionsafe(49);
 
     $("#bottom").css(
       "margin-top",
@@ -573,6 +572,7 @@ const GAME = {
     ENGINE.INI.ANIMATION_INTERVAL = 16;
     DUNGEON.MAX_ROOM = 3;
     HERO.startInit();
+    SPEECH.use('MaleQ');
     ENGINE.GAME.ANIMATION.waitThen(GAME.levelStart, 2);
   },
   setBonus() {

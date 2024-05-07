@@ -31,7 +31,7 @@ var DownRight = new Vector(1, 1);
 var DownLeft = new Vector(-1, 1);
 
 var ENGINE = {
-  VERSION: "2.45.01",
+  VERSION: "2.45.02",
   CSS: "color: #0FA",
   INI: {
     ANIMATION_INTERVAL: 17,
@@ -49,10 +49,9 @@ var ENGINE = {
   },
   readyCall: null,
   start: null,
-  SOURCE: "https://www.c00lsch00l.eu/Games/AA/",
-  WASM_SOURCE: "https://www.c00lsch00l.eu/WASM/",
-  AUDIO_SOURCE: "https://www.c00lsch00l.eu/Mp3/",
-  FONT_SOURCE: "https://www.c00lsch00l.eu/Fonts/",
+  SOURCE: "/Assets/Graphics/",
+  AUDIO_SOURCE: "/Assets/Sounds/",
+  FONT_SOURCE: "/Assets/Fonts/",
   checkIntersection: false, //use linear intersection collision method after pixelperfect collision; set to false to exclude
   checkProximity: true, //check proximity before pixel perfect evaluation of collision to background
   pixelPerfectCollision: false, //false by default
@@ -3225,24 +3224,7 @@ class MovingText {
     }
   }
 }
-class Area {
-  constructor(x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-  }
-  within(X, Y) {
-    if (
-      X >= this.x &&
-      X < this.x + this.w &&
-      Y >= this.y &&
-      Y < this.y + this.h
-    ) {
-      return true;
-    } else return false;
-  }
-}
+
 class Button {
   constructor(text, area, col, handler) {
     this.text = text;
