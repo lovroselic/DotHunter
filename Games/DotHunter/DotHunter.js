@@ -23,7 +23,7 @@ const INI = {
   FLOATY_DISTANCE: 4
 };
 const PRG = {
-  VERSION: "1.01.04",
+  VERSION: "1.02",
   CSS: "color: #0F0",
   NAME: "DOT-HUNTER",
   YEAR: 2020,
@@ -883,7 +883,7 @@ const GAME = {
     const text = GAME.generateTitleText();
     const RD = new RenderData("Annie", 16, "lime", "bottomText");
     const SQ = new Area(0, 0, LAYER.bottomText.canvas.width, LAYER.bottomText.canvas.height);
-    GAME.movingText = new MovingText(text, 3, RD, SQ);
+    GAME.movingText = new MovingText(text, 4, RD, SQ);
   },
   runTitle() {
     if (ENGINE.GAME.stopAnimation) return;
@@ -1173,14 +1173,14 @@ const TITLE = {
     ENGINE.GAME.start(); //INIT game loop
     ENGINE.GAME.ANIMATION.next(GAME.runTitle);
   },
-  animateTitleGhosts: function () {
+  animateTitleGhosts() {
     ENGINE.clearLayer("actors");
     for (let ghost of TITLE.ghosts) {
       ghost.animateMove("front");
       ENGINE.draw("actors", ghost.x, ghost.y, ghost.sprite());
     }
   },
-  animateTitleRat: function () {
+  animateTitleRat() {
     let left = 208;
     let right = 208 + 615 - 48;
 
@@ -1254,7 +1254,7 @@ const TITLE = {
     CTX.font = `${fs}px Consolas`;
     ENGINE.resetShadow(CTX);
     for (var hs = 1; hs <= SCORE.SCORE.depth; hs++) {
-      let name = SCORE.SCORE.name[hs - 1].split("&")[0].padEnd(10, " ");
+      let name = SCORE.SCORE.name[hs - 1].split("&")[0].padEnd(SCORE.LIMIT, " ");
       let HS = `${hs.toString().padStart(2, "0")}. ${name} ${SCORE.SCORE.value[
         hs - 1
       ]
