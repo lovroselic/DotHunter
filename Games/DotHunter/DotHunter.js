@@ -23,7 +23,7 @@ const INI = {
   FLOATY_DISTANCE: 4
 };
 const PRG = {
-  VERSION: "1.01.02",
+  VERSION: "1.01.03",
   CSS: "color: #0F0",
   NAME: "DOT-HUNTER",
   YEAR: 2020,
@@ -83,7 +83,7 @@ const PRG = {
 
     ENGINE.checkProximity = false;
     ENGINE.checkIntersection = false;
-    ENGINE.setCollisionsafe(49);
+    //ENGINE.setCollisionsafe(49);
 
     $("#bottom").css(
       "margin-top",
@@ -882,12 +882,7 @@ const GAME = {
   setTitle() {
     const text = GAME.generateTitleText();
     const RD = new RenderData("Annie", 16, "lime", "bottomText");
-    const SQ = new Square(
-      0,
-      0,
-      LAYER.bottomText.canvas.width,
-      LAYER.bottomText.canvas.height
-    );
+    const SQ = new Area(0, 0, LAYER.bottomText.canvas.width, LAYER.bottomText.canvas.height);
     GAME.movingText = new MovingText(text, 3, RD, SQ);
   },
   runTitle() {
@@ -914,7 +909,7 @@ const GAME = {
     }
   }
 };
-var TITLE = {
+const TITLE = {
   repaintScore: null,
   main() {
     TITLE.title();
